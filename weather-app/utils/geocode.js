@@ -5,7 +5,10 @@ const geocode = (address, callback) => {
     address
   )}.json?access_token=pk.eyJ1IjoiaWNlY3Jpc3MiLCJhIjoiY2p2eHB2ZzVtMDcxNzQzbXo5dm9uM2E1cCJ9.sJHPSthY5XiUQkFzHhm-Ng&limit=1`;
 
-  request({ url: url, json: true }, (error, response, body) => {
+  request({
+    url,
+    json: true
+  }, (error, response, body) => {
     if (error || body.message === "Not Authorized - Invalid Token.") {
       callback("Unable to connect to location services!", undefined);
     } else if (body.features.length === 0) {

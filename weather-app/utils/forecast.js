@@ -5,7 +5,10 @@ const forecast = (longitude, latitude, callback) => {
   const urlBase = "https://api.darksky.net/forecast/";
   const url = `${urlBase}${secretKey}/${longitude},${latitude}?units=si`;
 
-  request({ url, json: true }, (error, response, body) => {
+  request({
+    url,
+    json: true
+  }, (error, response, body) => {
     if (error || body === "Forbidden\n") {
       callback("Unable to connect to weather service!", undefined);
     } else if (body.error) {
@@ -14,7 +17,7 @@ const forecast = (longitude, latitude, callback) => {
     } else {
       callback(
         undefined,
-        `It is currently ${
+        `${body.daily.data[0].summary}\nIt is currently ${
           body.currently.temperature
         } degrees out. There is a ${
           body.currently.precipProbability

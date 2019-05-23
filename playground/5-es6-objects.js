@@ -4,16 +4,34 @@ const product = {
   label: "Red notebook",
   price: 3,
   stock: 201,
-  salePrice: undefined
+  salePrice: undefined,
+  // rating: 4.2
 };
 
-console.log(product);
+// console.log(product);
 
-const { label: productLabel, price, stock, rating } = product;
+// const {
+//   label: productLabel,
+//   price,
+//   stock,
+//   rating = 5
+// } = product;
 
-console.log(productLabel);
-console.log(price);
-console.log(stock);
-console.log(rating);
+// console.log('productLabel', productLabel);
+// console.log('price', price);
+// console.log('stock', stock);
+// console.log('rating', rating);
 
-console.log(product);
+// console.log(product);
+
+const transaction = (type, {
+  label,
+  stock
+} = myProduct) => {
+
+  console.log(type + ': ')
+  console.log('product: ' + label)
+  console.log('quantity: ' + stock)
+}
+
+transaction('order', product)

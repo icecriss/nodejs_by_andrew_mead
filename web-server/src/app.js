@@ -1,22 +1,22 @@
 const path = require("path");
 const express = require("express");
 
-const hbs = require('hbs')
+const hbs = require("hbs");
 
 const app = express();
 const port = 3000;
 
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, "../public");
-const viewsPath = path.join(__dirname, "../templates/views")
-const partialsPath = path.join(__dirname, '../templates/partials')
+const viewsPath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../templates/partials");
 
 // we set the use of handlebars
 app.set("view engine", "hbs");
 // we can set the path we want to get the views from...
 // if we don't set it, the directory will have to be views
-app.set('views', viewsPath)
-hbs.registerPartials(partialsPath)
+app.set("views", viewsPath);
+hbs.registerPartials(partialsPath);
 
 // setup static directory to serve
 app.use(express.static(publicDirectoryPath));
@@ -48,11 +48,27 @@ app.get("/weather", (req, res) => {
     title: "Weather page",
     forecast: "It is currently 25°C",
     location: "Cucuron, PACA, France",
-    name: 'Ice'
+    name: "Ice"
+  });
+});
+
+app.get("/help/*", (req, res) => {
+  res.render("404", {
+    title: "404",
+    errorMessage: "Help article not found.",
+    name: "Ice"
+  });
+});
+
+app.get("/*", (req, res) => {
+  res.render("404", {
+    title: "404",
+    errorMessage: "Page not found.",
+    name: "Ice"
   });
 });
 
 app.listen(port, () => {
-  console.log(`Server is up on port ${port}`)
+  console.log(`Server is up on port ${port}`);
   console.log(`http://localhost:${port}`);
 });

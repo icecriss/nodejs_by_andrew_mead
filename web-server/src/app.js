@@ -44,13 +44,37 @@ app.get("/help", (req, res) => {
 });
 
 app.get("/weather", (req, res) => {
-  res.render("weather", {
+
+  if (!req.query.address) {
+    return res.send({
+      error: 'You must provide a location'
+    })
+  }
+  res.send({
     title: "Weather page",
     forecast: "It is currently 25°C",
-    location: "Cucuron, PACA, France",
-    name: "Ice"
-  });
+    location: 'Cucuron, PACA, France',
+    address: req.query.address,
+  })
+  // res.render("weather", {
+  //   title: "Weather page",
+  //   forecast: "It is currently 25°C",
+  //   location: req.query.address,
+  //   name: "Ice"
+  // });
 });
+
+app.get('/products', (req, res) => {
+  if (!req.query.search) {
+    return res.send({
+      error: 'You must provide a search term'
+    })
+  }
+  console.log(req.query)
+  res.send({
+    products: []
+  })
+})
 
 app.get("/help/*", (req, res) => {
   res.render("404", {

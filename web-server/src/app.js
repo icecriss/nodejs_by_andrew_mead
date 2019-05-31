@@ -1,7 +1,9 @@
 const path = require("path");
 const express = require("express");
-
 const hbs = require("hbs");
+
+const geocode = require("./utils/geocode");
+const forecast = require("./utils/forecast");
 
 const app = express();
 const port = 3000;
@@ -44,18 +46,40 @@ app.get("/help", (req, res) => {
 });
 
 app.get("/weather", (req, res) => {
-
   if (!req.query.address) {
     return res.send({
-      error: 'You must provide a location'
-    })
+      error: "You must provide a location"
+    });
   }
-  res.send({
-    title: "Weather page",
-    forecast: "It is currently 25°C",
-    location: 'Cucuron, PACA, France',
-    address: req.query.address,
-  })
+
+  geocode(req.query.address, (error, { longitude, latitude, location }) => {
+    if (error) {
+      // return res.send({ error: error});
+      return res.send({ error });
+    }
+    forecast(latitude, longitude, (error, forecastData) => {
+      if (error) {
+        // return res.send({ error: error});
+        return res.send({ error });
+      } else {
+        // res.send({
+        //   title: "Weather page",
+        //   forecast: forecastData,
+        // //  location: location,
+        //   location,
+        //   address: req.query.address
+        // });
+        res.render("weather", {
+          title: "Weather page",
+          forecast: forecastData,
+          // location: location,
+          location,
+          address: req.query.address
+        });
+      }
+    });
+  });
+
   // res.render("weather", {
   //   title: "Weather page",
   //   forecast: "It is currently 25°C",
@@ -64,17 +88,17 @@ app.get("/weather", (req, res) => {
   // });
 });
 
-app.get('/products', (req, res) => {
+app.get("/products", (req, res) => {
   if (!req.query.search) {
     return res.send({
-      error: 'You must provide a search term'
-    })
+      error: "You must provide a search term"
+    });
   }
-  console.log(req.query)
+  console.log(req.query);
   res.send({
     products: []
-  })
-})
+  });
+});
 
 app.get("/help/*", (req, res) => {
   res.render("404", {

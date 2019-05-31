@@ -52,33 +52,36 @@ app.get("/weather", (req, res) => {
     });
   }
 
-  geocode(req.query.address, (error, { longitude, latitude, location }) => {
-    if (error) {
-      // return res.send({ error: error});
-      return res.send({ error });
-    }
-    forecast(latitude, longitude, (error, forecastData) => {
+  geocode(
+    req.query.address,
+    (error, { longitude, latitude, location } = {}) => {
       if (error) {
         // return res.send({ error: error});
         return res.send({ error });
-      } else {
-        // res.send({
-        //   title: "Weather page",
-        //   forecast: forecastData,
-        // //  location: location,
-        //   location,
-        //   address: req.query.address
-        // });
-        res.render("weather", {
-          title: "Weather page",
-          forecast: forecastData,
-          // location: location,
-          location,
-          address: req.query.address
-        });
       }
-    });
-  });
+      forecast(latitude, longitude, (error, forecastData) => {
+        if (error) {
+          // return res.send({ error: error});
+          return res.send({ error });
+        } else {
+          res.send({
+            title: "Weather page",
+            forecast: forecastData,
+            //  location: location,
+            location,
+            address: req.query.address
+          });
+          // res.render("weather", {
+          //   title: "Weather page",
+          //   forecast: forecastData,
+          //   // location: location,
+          //   location,
+          //   address: req.query.address
+          // });
+        }
+      });
+    }
+  );
 
   // res.render("weather", {
   //   title: "Weather page",

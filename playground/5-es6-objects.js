@@ -5,7 +5,7 @@ const product = {
   price: 3,
   stock: 201,
   salePrice: undefined,
-  // rating: 4.2
+  rating: 4.2
 };
 
 // console.log(product);
@@ -24,14 +24,11 @@ const product = {
 
 // console.log(product);
 
-const transaction = (type, {
-  label,
-  stock
-} = myProduct) => {
+const transaction = (type, { label, stock = 0 } = {}) => {
+  console.log(type + ": ");
+  console.log("product: " + label);
+  console.log("quantity: " + stock);
+};
 
-  console.log(type + ': ')
-  console.log('product: ' + label)
-  console.log('quantity: ' + stock)
-}
-
-transaction('order', product)
+transaction("order", product);
+// transaction("order");
